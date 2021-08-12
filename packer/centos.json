@@ -9,8 +9,8 @@
     {
       "name": "{{user `image_name`}}",
       "type": "virtualbox-iso",
-      "vm_name": "packer-centos-vm",
-
+      "vm_name": "packer-centos-vm-dp",
+      "headless": true,
       "boot_wait": "10s",
       "disk_size": "10240",
       "guest_os_type": "RedHat_64",
@@ -20,6 +20,7 @@
       "iso_checksum": "07b94e6b1a0b0260b94c83d6bb76b26bf7a310dc78d7a9c7432809fb9bc6194a",
       "iso_checksum_type": "sha256",
 
+
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.ks<enter><wait>"
       ],
@@ -27,7 +28,7 @@
       "shutdown_command": "sudo -S /sbin/halt -h -p",
       "shutdown_timeout" : "5m",
 
-      "ssh_wait_timeout": "20m",
+      "ssh_wait_timeout": "620m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -36,8 +37,8 @@
       "output_directory": "builds",
 
       "vboxmanage": [
-        [  "modifyvm",  "{{.Name}}",  "--memory",  "1024" ],
-        [  "modifyvm",  "{{.Name}}",  "--cpus",  "2" ]
+        [  "modifyvm",  "{{.Name}}",  "--memory",  "512" ],
+        [  "modifyvm",  "{{.Name}}",  "--cpus",  "1" ]
       ],
 
       "export_opts":
@@ -68,10 +69,10 @@
       "override": {
         "{{user `image_name`}}" : {
           "scripts" :
-            [
-              "scripts/stage-1-kernel-update.sh",
-              "scripts/stage-2-clean.sh"
-            ]
+          [
+            "scripts/stage-1-kernel-update.sh",
+            "scripts/stage-2-clean.sh"
+          ]
         }
       }
     }
